@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * TODO: checkWin()
  * TODO: btn Hilfe
@@ -21,6 +23,8 @@ public class Controller {
 
     private String currentPlayer = "O";
     private String nextPlayer = "X";
+    private boolean ki_game = true;
+    private int numFilled = 0;
 
     public Controller(GUI gui){
         this.gui = gui;
@@ -34,6 +38,7 @@ public class Controller {
         }else{
             this.gui.setFieldText(x, y, this.currentPlayer);
             this.field[y][x] = this.currentPlayer;
+            this.numFilled++;
             this.nextTurn();
         }
     }
@@ -44,6 +49,9 @@ public class Controller {
             String temp = this.nextPlayer;
             this.nextPlayer = this.currentPlayer;
             this.currentPlayer = temp;
+            if(this.ki_game && this.currentPlayer.equals("X") && this.numFilled < 9){
+                this.ki_turn();
+            }
         }else if(res == Result.WIN){
             this.gui.showWin(this.currentPlayer);
             this.newGame();
@@ -64,13 +72,31 @@ public class Controller {
         }
     }
 
-    public void nextStart(String nameO, String nameX){
+    public void nextStart(String nameO, String nameX, boolean enableKi){
+        this.ki_game = enableKi;
         this.gui.showMainPanel(nameO, nameX);
     }
 
     public void newGame(){
         this.gui.clearField();
         this.field = new String[3][3];
+        this.numFilled = 0;
+    }
+
+    private void ki_turn(){
+        while (true){
+            int x = this.rand_field();
+            int y = this.rand_field();
+            if(this.field[y][x] == null){
+                this.clickField(x, y);
+                break;
+            }
+        }
+    }
+
+    private int rand_field(){
+        Random rand = new Random();
+        return rand.nextInt((2) + 1);
     }
 
     public static void main(String[] args) {

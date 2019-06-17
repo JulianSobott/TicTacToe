@@ -7,10 +7,12 @@ public class StartPanel extends JPanel {
 
     private Controller controller;
 
+    Checkbox cbEnableKi;
+
     public StartPanel(Controller controller){
         this.controller = controller;
 
-        this.setLayout(new GridLayout(3, 2));
+        this.setLayout(new GridLayout(4, 2));
 
         JLabel lblPlayerX = new JLabel("Player X");
         this.add(lblPlayerX);
@@ -37,9 +39,15 @@ public class StartPanel extends JPanel {
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.nextStart(tfPlayerO.getText(), tfPlayerX.getText());
+                controller.nextStart(tfPlayerO.getText(), tfPlayerX.getText(), cbEnableKi.getState());
             }
         });
         this.add(btnNext);
+
+        JLabel lblEnableKi = new JLabel("Enable KI");
+        this.add(lblEnableKi);
+
+        cbEnableKi = new Checkbox();
+        this.add(cbEnableKi);
     }
 }
