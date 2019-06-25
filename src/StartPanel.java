@@ -39,7 +39,9 @@ public class StartPanel extends JPanel {
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.nextStart(tfPlayerO.getText(), tfPlayerX.getText(), cbEnableKi.getState());
+                String nameX = tfPlayerX.getText().length() > 0 ? tfPlayerX.getText() : "Player X";
+                String nameO = tfPlayerO.getText().length() > 0 ? tfPlayerO.getText() : "Player O";
+                controller.nextStart(nameO, nameX, cbEnableKi.getState());
             }
         });
         this.add(btnNext);
