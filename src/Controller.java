@@ -20,6 +20,8 @@ public class Controller {
 
     private String currentPlayer = "O";
     private String nextPlayer = "X";
+    private String nameO;
+    private String nameX;
     private boolean ki_game = true;
     private int numFilled = 0;
 
@@ -43,9 +45,7 @@ public class Controller {
     public void nextTurn() {
         Result res = this.checkWin();
         if (res == Result.NONE) {
-            String temp = this.nextPlayer;
-            this.nextPlayer = this.currentPlayer;
-            this.currentPlayer = temp;
+            this.updateCurrentPlayer();
             if (this.ki_game && this.currentPlayer.equals("X") && this.numFilled < 9) {
                 this.ki_turn();
             }
@@ -96,13 +96,17 @@ public class Controller {
 
     public void nextStart(String nameO, String nameX, boolean enableKi) {
         this.ki_game = enableKi;
+        this.nameO = nameO;
+        this.nameX = nameX;
         this.gui.showMainPanel(nameO, nameX);
+        this.updateCurrentPlayer();
     }
 
     public void newGame() {
         this.gui.clearField();
         this.field = new String[3][3];
         this.numFilled = 0;
+        this.updateCurrentPlayer();
     }
 
     private void ki_turn() {
@@ -123,6 +127,16 @@ public class Controller {
 
     public static void main(String[] args) {
         GUI gui = new GUI();
+    }
+
+    private void updateCurrentPlayer(){
+        String temp = this.nextPlayer;
+        this.nextPlayer = this.currentPlayer;
+        this.currentPlayer = temp;
+        if(this.currentPlayer.equals("O"))
+            this.gui.setCurrentPlayer(this.nameO);
+        else
+            this.gui.setCurrentPlayer(this.nameX);
     }
 
 }

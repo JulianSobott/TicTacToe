@@ -108,4 +108,8 @@ public class MainPanel extends JPanel {
             }
         }
     }
+
+    public void setCurrentPlayer(String name){
+        this.lblCurrent.setText("Current player: " + name);
+    }
 }

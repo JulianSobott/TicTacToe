@@ -46,4 +46,8 @@ public class GUI extends JFrame {
     public void clearField(){
         this.mainPanel.clearField();
     }
+
+    public void setCurrentPlayer(String name){
+        this.mainPanel.setCurrentPlayer(name);
+    }
 }
