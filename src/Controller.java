@@ -9,13 +9,16 @@ import java.util.Random;
 
 public class Controller {
 
+
+
     enum Result {
-        WIN, DRAW, NONE
+        WIN, DRAW, NONE;
 
     }
 
     GUI gui;
 
+    private boolean gamePaused;
     String[][] field = new String[3][3];
 
     private String currentPlayer = "O";
@@ -31,14 +34,16 @@ public class Controller {
 
 
     public void clickField(int x, int y) {
-        this.gui.clearError();
-        if (this.field[y][x] != null) {
-            this.gui.showError("Schon besetzt");
-        } else {
-            this.gui.setFieldText(x, y, this.currentPlayer);
-            this.field[y][x] = this.currentPlayer;
-            this.numFilled++;
-            this.nextTurn();
+        if(!this.gamePaused){
+            this.gui.clearError();
+            if (this.field[y][x] != null) {
+                this.gui.showError("Schon besetzt");
+            } else {
+                this.gui.setFieldText(x, y, this.currentPlayer);
+                this.field[y][x] = this.currentPlayer;
+                this.numFilled++;
+                this.nextTurn();
+            }
         }
     }
 
@@ -103,10 +108,20 @@ public class Controller {
     }
 
     public void newGame() {
-        this.gui.clearField();
-        this.field = new String[3][3];
-        this.numFilled = 0;
-        this.updateCurrentPlayer();
+        this.gamePaused = true;
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            gamePaused = false;
+            gui.clearField();
+            field = new String[3][3];
+            numFilled = 0;
+            updateCurrentPlayer();
+        });
+        t.start();
     }
 
     private void ki_turn() {
