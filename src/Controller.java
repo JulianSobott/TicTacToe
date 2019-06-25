@@ -55,7 +55,10 @@ public class Controller {
                 this.ki_turn();
             }
         } else if (res == Result.WIN) {
-            this.gui.showWin(this.currentPlayer);
+            if(this.currentPlayer.equals("O"))
+                this.gui.showWin(this.nameO);
+            else
+                this.gui.showWin(this.nameX);
             this.newGame();
         } else if (res == Result.DRAW) {
             this.gui.showError("Unentschieden ihr Opfer");
